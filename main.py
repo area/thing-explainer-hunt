@@ -58,7 +58,21 @@ def factorial(story):
 
 #n words for the greatest n such that you use exactly n different n-letter words
 def nDifferentNLetter(story):
-	return 0
+	words = story.split();
+	histogram = {}
+	for word in words:
+		wordlength = len(word)
+		if (wordlength not in histogram):
+			histogram[wordlength]=1
+		else:
+			histogram[wordlength]+=1
+
+	score = 0
+	for length in histogram:
+		print length, histogram[length]
+		if histogram[length]==length and length > score:
+			score = length
+	return score
 
 #15 exp(-ln(n/9)^2) points if you don't use any words that score n in scrabble, for the n which makes this biggest
 def scrabble(story):
