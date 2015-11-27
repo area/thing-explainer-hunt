@@ -92,7 +92,20 @@ def underground(story):
 
 #n points where n! is the greatest factorial dividing the product of the lengths of all sentences in the story.
 def factorial(story):
-	return 0
+	sentences = re.split(r' *[\.\?!][\'"\)\]]* *', story) #No-one get cocky with their punctuation, okay?
+	product=1
+	for sentence in sentences:
+		if sentence != '':
+			product = product * len(sentence.split())
+	#Now find the greatest factorial
+	n = 1
+	maxn = 1
+	while math.factorial(n) < math.sqrt(product):
+		if product % math.factorial(n) ==0:
+			maxn=n
+		n+=1
+
+	return maxn
 
 #n words for the greatest n such that you use exactly n different n-letter words
 def nDifferentNLetter(story):
