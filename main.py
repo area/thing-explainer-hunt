@@ -163,17 +163,21 @@ def alphabetical(story):
 	currentrun=0
 	maxrun=0
 	prevWord=""
+	words = []
 	storywords = story.split()
 	for word in storywords:
 		if word>prevWord:
 			currentrun+=1
+			words.append(word)
 			if currentrun>maxrun:
 				maxrun=currentrun
+				maxwords = words
 		else:
 			currentrun=1
+			words = [word]
 		prevWord=word
 
-	return 3 * math.sqrt(maxrun)
+	return 3 * math.sqrt(maxrun), maxwords
 
 #1.52 * sqrt(n) points if a string of consecutive words in your story anagrams to the names of two stations on the same London Underground line, the shortest route between which on that line has n stops. Scored up to a limit of three times on different lines.
 def underground(story):
@@ -280,7 +284,7 @@ if __name__ == '__main__':
 		print "Scrabble:" , scrabble(story)
 		print "Alphabet:", alphabet(story)
 		print "-"*80
-		print 'Total score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story) + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
+		print 'Total score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story)[0] + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
 		print "="*80
 	else:
 		print 'Your story contains invalid words:', getInvalidWords(story)
