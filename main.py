@@ -259,10 +259,13 @@ def alphabet(story):
 
 
 if __name__ == '__main__':
-	story = ""
-	story = story.translate(string.maketrans("",""), string.punctuation).lower() #Remove punctuation, lowercase story
+	import sys
+	with open(sys.argv[1], 'r') as f:
+		story = f.read()
 
-	if len(getInvalidWords(story))==0:
-		print 'Score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story) + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
-	else:
-		print 'Your story contains invalid words:', getInvalidWords(story)
+		story = story.translate(string.maketrans("",""), string.punctuation).lower() #Remove punctuation, lowercase story
+
+		if len(getInvalidWords(story))==0:
+			print 'Score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story) + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
+		else:
+			print 'Your story contains invalid words:', getInvalidWords(story)
