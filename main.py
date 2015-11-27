@@ -62,7 +62,21 @@ def elements(story):
 
 #3 *sqrt(n) points for the longest run of n words in a row that are in alphabetical order
 def alphabetical(story):
-	return 0
+	storyindex = 0
+	currentrun=0
+	maxrun=0
+	prevWord=""
+	storywords = story.split()
+	for word in storywords:
+		if word>prevWord:
+			currentrun+=1
+			if currentrun>maxrun:
+				maxrun=currentrun
+		else:
+			currentrun=1
+		prevWord=word
+
+	return 3 * math.sqrt(maxrun)
 
 #1.52 * sqrt(n) points if a string of consecutive words in your story anagrams to the names of two stations on the same London Underground line, the shortest route between which on that line has n stops. Scored up to a limit of three times on different lines.
 def underground(story):
