@@ -107,7 +107,55 @@ def pi(story):
 
 #ln(118) * SQRT(n) points for the longest run of n words in a row that can be made of chemical element symbols (ingoring spaces and punctuation and capitalisation)
 def elements(story):
-	return 0
+	symbols= ["H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd","Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th","Pa","U","Np","Pu","Am","Cm","Bk","Cf","Es","Fm","Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds","Rg","Cn","Uut","Fl","Uup","Lv","Uus","Uuo"]
+	symbols = [x.lower() for x in symbols]
+
+	global maxwords
+	maxwords = 0
+
+	def possibleNextElements(inputString, elementsSeen, words):
+		global maxwords
+		if inputString=="":
+			#end of string counts as end of word if we've finished cleanly
+			if words+1 > maxwords:
+				maxwords = words+1
+
+		else:
+			#We want to skip the space in the next 1/2/3 letters if there is one
+			hasSpace=0
+
+
+			if inputString[0]==" ":
+				if words+1 > maxwords:
+					maxwords = words+1
+				possibleNextElements(inputString[1:], elementsSeen, words+1)
+				#Then we've finished cleanly on a word. This counts!
+
+			elif inputString[0:1] in symbols:
+				elementsSeen.append(inputString[0:1])
+				possibleNextElements(inputString[1:],elementsSeen, words )
+				del elementsSeen[-1]
+
+
+			if len(inputString)>2 and inputString[1]==" ":
+				hasSpace=1
+			if len(inputString)>2+hasSpace and inputString[0:2+hasSpace].replace(" ", "") in symbols:
+				elementsSeen.append(inputString[0:2+hasSpace].replace(" ", ""))
+				possibleNextElements(inputString[2+hasSpace:],elementsSeen, words + hasSpace )
+				del elementsSeen[-1]
+
+			if len(inputString)>3 and inputString[2]==" ":
+				hasSpace=1
+			if len(inputString)>3+hasSpace and inputString[0:3+hasSpace].replace(" ", "") in symbols:
+				elementsSeen.append(inputString[0:3+hasSpace].replace(" ", ""))
+				possibleNextElements(inputString[3+hasSpace:].replace(" ", ""),elementsSeen, words + hasSpace )
+				del elementsSeen[-1]
+
+
+	possibleNextElements(story, [], 0)
+	return math.log(118) * math.sqrt(maxwords)
+
+
 
 #3 *sqrt(n) points for the longest run of n words in a row that are in alphabetical order
 def alphabetical(story):
@@ -209,10 +257,12 @@ def alphabet(story):
 			nOddLetters+=1
 	return (nOddLetters-13)**2 / 13.0
 
-story = ""
-story = story.translate(string.maketrans("",""), string.punctuation).lower() #Remove punctuation, lowercase story
 
-if len(getInvalidWords(story))==0:
-	print 'Score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story) + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
-else:
-	print 'Your story contains invalid words:', getInvalidWords(story)
+if __name__ == '__main__':
+	story = ""
+	story = story.translate(string.maketrans("",""), string.punctuation).lower() #Remove punctuation, lowercase story
+
+	if len(getInvalidWords(story))==0:
+		print 'Score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story) + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
+	else:
+		print 'Your story contains invalid words:', getInvalidWords(story)
