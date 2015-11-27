@@ -2,7 +2,7 @@
 Code for writing an amazing short story
 
 ###Running
-    python story.txt
+    python main.py story.txt
 
 Will output either your story's score or a list of invalid words
 in your story

@@ -209,7 +209,6 @@ def nDifferentNLetter(story):
 
 	score = 0
 	for length in histogram:
-		print length, histogram[length]
 		if histogram[length]==length and length > score:
 			score = length
 	return score
@@ -263,9 +262,25 @@ if __name__ == '__main__':
 	with open(sys.argv[1], 'r') as f:
 		story = f.read()
 
-		story = story.translate(string.maketrans("",""), string.punctuation).lower() #Remove punctuation, lowercase story
-
-		if len(getInvalidWords(story))==0:
-			print 'Score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story) + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
-		else:
-			print 'Your story contains invalid words:', getInvalidWords(story)
+	story = story.translate(string.maketrans("",""), string.punctuation).lower() #Remove punctuation, lowercase story
+	print story
+	if (len(story.split())>250):
+		print "Story is too long at ", len(story.split()), 'words'
+	if len(getInvalidWords(story))==0:
+		print "="*80
+		print "Oscar score:", oscar(story)
+		print "Iambic pentameter:", pentameter(story)
+		print "Acrostic:", acrostic(story)
+		print "Pi:", pi(story)
+		print "Elements:", elements(story)
+		print "Alphabetical order:", alphabetical(story)
+		print "Underground: ", underground(story)
+		print "Factorial:", factorial(story)
+		print "Different letters:", nDifferentNLetter(story)
+		print "Scrabble:" , scrabble(story)
+		print "Alphabet:", alphabet(story)
+		print "-"*80
+		print 'Total score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story) + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
+		print "="*80
+	else:
+		print 'Your story contains invalid words:', getInvalidWords(story)
