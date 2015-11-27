@@ -76,8 +76,32 @@ def nDifferentNLetter(story):
 
 #15 exp(-ln(n/9)^2) points if you don't use any words that score n in scrabble, for the n which makes this biggest
 def scrabble(story):
-	return 0
 
+	def scrabble_score(word):
+		points = {"a":1, "b":3, "c":3, "d":2, "e":1,"f":4, "g":2, "h":4, "i":1, "j":8, "k":5, "l":4, "m":3, "n":1, "o":1, "p":2, "q":10, "r":1, "s":1, "t":1, "u":1, "v":4, "w":4, "x":8, "y":4, "z":10}
+		total=0
+		for char in word:
+			total = total + points[char]
+		return total
+
+	scores = {}
+	words = story.split();
+	for word in words:
+		score = scrabble_score(word)
+		scores[score] = True
+
+	idx = 1
+	score = 0
+	while idx <100:
+		if (idx not in scores):
+			#Then this might be worth points
+			potscore = 15*math.exp(-(math.log(idx/9.0))**2)
+			if potscore > score:
+				score = potscore
+		idx+=1
+
+	#Plotting this shows that the peak is 9? Seems about right...
+	return score
 
 #(n-13)^2/13 points if you use exactly n of the letters of the alphabet an odd number of times
 def alphabet(story):
