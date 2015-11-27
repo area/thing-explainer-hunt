@@ -40,7 +40,6 @@ def pi(story):
             piindex=0
     return float(pi)*1e-250 * math.sqrt(maxrun)
 
-print digitsOfPi('i iiiiiiiiiiiii i iiii iiiii') #Should be equal to 5.44139
 #ln(118) * SQRT(n) points for the longest run of n words in a row that can be made of chemical element symbols (ingoring spaces and punctuation and capitalisation)
 def elements(story):
 	return 0
@@ -71,5 +70,6 @@ def alphabet(story):
 	return 0
 
 story = ""
+story = story.translate(string.maketrans("",""), string.punctuation) #Remove punctuation
 
 print characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story) + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
