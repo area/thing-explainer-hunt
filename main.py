@@ -114,7 +114,17 @@ def scrabble(story):
 
 #(n-13)^2/13 points if you use exactly n of the letters of the alphabet an odd number of times
 def alphabet(story):
-	return 0
+	histogram = {}
+	for letter in story:
+		if letter in histogram:
+			histogram[letter]+=1;
+		else:
+			histogram[letter]=1
+	nOddLetters = 0
+	for letter in histogram:
+		if histogram[letter]%2==1:
+			nOddLetters+=1
+	return (nOddLetters-13)**2 / 13.0
 
 story = ""
 story = story.translate(string.maketrans("",""), string.punctuation) #Remove punctuation
