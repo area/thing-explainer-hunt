@@ -260,7 +260,6 @@ def underground(story):
 	#take top 3 lines that scored us points
 	sorted_x = sorted(storyScores.items(), key=operator.itemgetter(1), reverse=True)
 	score = 0
-	print sorted_x
 	for idx, val in enumerate(sorted_x):
 		if idx < 3:
 			score += val[1]
