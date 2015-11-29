@@ -180,8 +180,92 @@ def alphabetical(story):
 	return 3 * math.sqrt(maxrun), maxwords
 
 #1.52 * sqrt(n) points if a string of consecutive words in your story anagrams to the names of two stations on the same London Underground line, the shortest route between which on that line has n stops. Scored up to a limit of three times on different lines.
+import networkx as nx
+import math
+import csv
+import string
+import operator
+G=nx.Graph()
+
+def standardise(instr):
+    return ''.join(sorted(''.join(instr.split()).lower()))
+
+# Import london underground data, taken from
+# https://commons.wikimedia.org/wiki/London_Underground_geographic_maps/CSV
+with open('./data/stations.dat', 'rb') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter=',')
+    next(spamreader, None)  # skip the headers
+    for row in spamreader:
+    	stationname = row[3].replace('5','Five')
+        G.add_node(row[0], name=row[3])
+
+stations = nx.get_node_attributes(G, "name")
+
+
+lines={}
+with open('./data/routes.dat', 'rb') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter=',')
+    next(spamreader, None)  # skip the headers
+    for row in spamreader:
+        lines[row[0]] = row[1]
+
+
+undergroundScores = {}
+for line in lines:
+    #Remove all connections
+    G = nx.create_empty_copy(G)
+    stations_on_this_line = []
+    with open('./data/lines.dat', 'rb') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=',')
+        next(spamreader, None)  # skip the headers
+        for row in spamreader:
+            if row[2]==line:
+                G.add_edge(row[0], row[1])
+                if (row[0] not in stations_on_this_line):
+                    stations_on_this_line.append(row[0])
+                if (row[1] not in stations_on_this_line):
+                    stations_on_this_line.append(row[1])
+
+
+    for idx, station in enumerate(stations_on_this_line):
+        for idy, station2 in enumerate(stations_on_this_line):
+            if idy>idx:
+                path_length = nx.shortest_path_length(G, station, station2)
+                undergroundScores[standardise((stations[station] + stations[station2]).translate(string.maketrans("",""), string.punctuation).lower())] = {"station1": stations[station], "station2": stations[station2],"line":lines[line], "score": 1.52 * math.sqrt(path_length)}
+
 def underground(story):
-	return 0
+	storywords = story.split()
+	longest_key = max(len(x) for x in undergroundScores)
+	idx = 0
+	idy = 1
+	storyScores = {}
+	while idx < len(storywords) :
+		testwords = "".join(storywords[idx:idy])
+		if standardise(testwords) in undergroundScores:
+			#It scores us points!
+			if (undergroundScores[standardise(testwords)]['line'] in storyScores):
+				if undergroundScores[standardise(testwords)]['score'] > storyScores[undergroundScores[standardise(testwords)]['line']]:
+					storyScores[undergroundScores[standardise(testwords)]['line']] = undergroundScores[standardise(testwords)]['score']
+			else:
+				storyScores[undergroundScores[standardise(testwords)]['line']] = undergroundScores[standardise(testwords)]['score']
+		if len(testwords)>longest_key:
+			idx+=1
+			idy=idx+1
+		else:
+			idy+=1
+		if idy > len(storywords):
+			idx+=1
+			idy=idx+1
+
+	#take top 3 lines that scored us points
+	sorted_x = sorted(storyScores.items(), key=operator.itemgetter(1), reverse=True)
+	score = 0
+	print sorted_x
+	for idx, val in enumerate(sorted_x):
+		if idx < 3:
+			score += val[1]
+	return score
+
 
 #n points where n! is the greatest factorial dividing the product of the lengths of all sentences in the story.
 def factorial(story):
