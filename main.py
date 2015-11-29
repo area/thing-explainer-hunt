@@ -139,22 +139,22 @@ def elements(story):
 
 			if len(inputString)>2 and inputString[1]==" ":
 				hasSpace=1
-			if len(inputString)>2+hasSpace and inputString[0:2+hasSpace].replace(" ", "") in symbols:
+			if len(inputString)>=2+hasSpace and inputString[0:2+hasSpace].replace(" ", "") in symbols:
 				elementsSeen.append(inputString[0:2+hasSpace].replace(" ", ""))
 				possibleNextElements(inputString[2+hasSpace:],elementsSeen, words + hasSpace )
 				del elementsSeen[-1]
 
 			if len(inputString)>3 and inputString[2]==" ":
 				hasSpace=1
-			if len(inputString)>3+hasSpace and inputString[0:3+hasSpace].replace(" ", "") in symbols:
+			if len(inputString)>=3+hasSpace and inputString[0:3+hasSpace].replace(" ", "") in symbols:
 				elementsSeen.append(inputString[0:3+hasSpace].replace(" ", ""))
 				possibleNextElements(inputString[3+hasSpace:].replace(" ", ""),elementsSeen, words + hasSpace )
 				del elementsSeen[-1]
 
-
-	possibleNextElements(story, [], 0)
+	storywords = story.split()
+	for idx in range(len(storywords)):
+		possibleNextElements(" ".join(storywords[idx:]), [], 0)
 	return math.log(118) * math.sqrt(maxwords)
-
 
 
 #3 *sqrt(n) points for the longest run of n words in a row that are in alphabetical order
