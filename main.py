@@ -91,19 +91,20 @@ def pi(story):
     pi = "31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091"
     piindex = 0
     storyindex = 0
-    currentrun=0
-    maxrun=0
+    currentrun=[]
+    maxrun = []
     storywords= story.split()
     for word in storywords:
         if len(word)%10==int(pi[piindex]):
-            currentrun+=1
+            currentrun.append(word)
             piindex+=1
-            if currentrun > maxrun:
-                maxrun=currentrun
+            if len(currentrun) > len(maxrun):
+            	maxrun = currentrun
         else:
-            currentrun=0
+            currentrun=[]
             piindex=0
-    return float(pi)*1e-250 * math.sqrt(maxrun)
+
+    return float(pi)*1e-250 * math.sqrt(len(maxrun))
 
 #ln(118) * SQRT(n) points for the longest run of n words in a row that can be made of chemical element symbols (ingoring spaces and punctuation and capitalisation)
 def elements(story):
