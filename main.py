@@ -263,6 +263,7 @@ def underground(story):
 	for idx, val in enumerate(sorted_x):
 		if idx < 3:
 			score += val[1]
+
 	return score
 
 
@@ -271,8 +272,8 @@ def factorial(story):
 	sentences = re.split(r' *[\.\?!][\'"\)\]]* *', story) #No-one get cocky with their punctuation, okay?
 	product=1
 	for sentence in sentences:
-		if sentence != '':
-			product = product * len(sentence.split())
+		if sentence.strip() != '':
+			product = product * len(sentence.strip().split())
 	#Now find the greatest factorial
 	n = 1
 	maxn = 1
@@ -349,25 +350,25 @@ if __name__ == '__main__':
 	with open(sys.argv[1], 'r') as f:
 		story = f.read()
 
-	story = story.translate(string.maketrans("",""), string.punctuation).lower() #Remove punctuation, lowercase story
-	print story
-	if (len(story.split())>250):
-		print "Story is too long at ", len(story.split()), 'words'
-	if len(getInvalidWords(story))==0:
+	storynopunct = story.translate(string.maketrans("",""), string.punctuation).lower() #Remove punctuation, lowercase story
+
+	if (len(storynopunct.split())>250):
+		print "Story is too long at ", len(storynopunct.split()), 'words'
+	if len(getInvalidWords(storynopunct))==0:
 		print "="*80
-		print "Oscar score:", oscar(story)
-		print "Iambic pentameter:", pentameter(story)
+		print "Oscar score:", oscar(storynopunct)
+		print "Iambic pentameter:", pentameter(storynopunct)
 		print "Acrostic:", acrostic(story)
-		print "Pi:", pi(story)
-		print "Elements:", elements(story)
-		print "Alphabetical order:", alphabetical(story)
-		print "Underground: ", underground(story)
+		print "Pi:", pi(storynopunct)
+		print "Elements:", elements(storynopunct)
+		print "Alphabetical order:", alphabetical(storynopunct)
+		print "Underground: ", underground(storynopunct)
 		print "Factorial:", factorial(story)
-		print "Different letters:", nDifferentNLetter(story)
-		print "Scrabble:" , scrabble(story)
-		print "Alphabet:", alphabet(story)
+		print "Different letters:", nDifferentNLetter(storynopunct)
+		print "Scrabble:" , scrabble(storynopunct)
+		print "Alphabet:", alphabet(storynopunct)
 		print "-"*80
-		print 'Total score: ',  characters(story) + oscar(story) + pentameter(story) + acrostic(story) + pi(story) + elements(story) + alphabetical(story)[0] + underground(story) + factorial(story) + nDifferentNLetter(story) + scrabble(story) + alphabet(story)
+		print 'Total score: ',  characters(story) + oscar(storynopunct) + pentameter(storynopunct) + acrostic(story) + pi(storynopunct) + elements(storynopunct) + alphabetical(storynopunct)[0] + underground(storynopunct) + factorial(story) + nDifferentNLetter(storynopunct) + scrabble(storynopunct) + alphabet(storynopunct)
 		print "="*80
 	else:
 		print 'Your story contains invalid words:', getInvalidWords(story)
