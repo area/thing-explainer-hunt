@@ -292,13 +292,13 @@ def nDifferentNLetter(story):
 	for word in words:
 		wordlength = len(word)
 		if (wordlength not in histogram):
-			histogram[wordlength]=1
-		else:
-			histogram[wordlength]+=1
+			histogram[wordlength]=[word]
+		elif word not in histogram[wordlength]:
+			histogram[wordlength].append(word)
 
 	score = 0
 	for length in histogram:
-		if histogram[length]==length and length > score:
+		if len(histogram[length])==length and length > score:
 			score = length
 	return score
 
