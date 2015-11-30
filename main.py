@@ -277,13 +277,10 @@ def factorial(story):
 			product = product * len(sentence.strip().split())
 	#Now find the greatest factorial
 	n = 1
-	maxn = 1
-	while math.factorial(n) < math.sqrt(product):
-		if product % math.factorial(n) ==0:
-			maxn=n
+	while product % math.factorial(n) ==0:
 		n+=1
 
-	return maxn
+	return n-1
 
 #n words for the greatest n such that you use exactly n different n-letter words
 def nDifferentNLetter(story):
