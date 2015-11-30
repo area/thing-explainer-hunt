@@ -367,6 +367,7 @@ if __name__ == '__main__':
 		print "Alphabet:", alphabet(storynopunct)
 		print "-"*80
 		print 'Total score: ',  characters(story) + oscar(storynopunct) + pentameter(storynopunct) + acrostic(story) + pi(storynopunct) + elements(storynopunct) + alphabetical(storynopunct)[0] + underground(storynopunct) + factorial(story) + nDifferentNLetter(storynopunct) + scrabble(storynopunct) + alphabet(storynopunct)
+		print 'Story length: ', len(storynopunct.split()), 'words'
 		print "="*80
 	else:
-		print 'Your story contains invalid words:', getInvalidWords(story)
+		print 'Your story contains invalid words:', getInvalidWords(storynopunct)
