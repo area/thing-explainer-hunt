@@ -331,7 +331,7 @@ def scrabble(story):
 #(n-13)^2/13 points if you use exactly n of the letters of the alphabet an odd number of times
 def alphabet(story):
 	histogram = {}
-	for letter in story:
+	for letter in standardise(story):
 		if letter in histogram:
 			histogram[letter]+=1;
 		else:
