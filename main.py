@@ -27,10 +27,11 @@ def oscar(story):
 	#I reckon the easiest are 'her', 'wings', 'up',  'the fly',  'don't', 'the box', 'bird', 'for the birds', 'once'
 	#"Back to the future" is also notable...
 	score = 0
+	mentionedWinners = [];
 	for winner in oscarWinners:
-		if winner.translate(string.maketrans("",""), string.punctuation).lower() in story:
-			score+=math.log(87)
-	return min(score, math.log(87) * 5)
+	    if winner.translate(string.maketrans("",""), string.punctuation).lower() in story and winner not in mentionedWinners:
+			mentionedWinners.append(winner)
+	return min(len(mentionedWinners) * math.log(87), math.log(87) * 5)
 
 
 
