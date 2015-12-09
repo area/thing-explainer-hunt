@@ -101,10 +101,12 @@ def pi(story):
             piindex+=1
             if len(currentrun) > len(maxrun):
             	maxrun = currentrun
+        elif len(word)%10==3:
+            currentrun=[word]
+            piindex=1
         else:
             currentrun=[]
             piindex=0
-
     return float(pi)*1e-250 * math.sqrt(len(maxrun))
 
 #ln(118) * SQRT(n) points for the longest run of n words in a row that can be made of chemical element symbols (ingoring spaces and punctuation and capitalisation)
